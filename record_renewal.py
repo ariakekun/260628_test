@@ -2,12 +2,13 @@ import streamlit as st
 import pandas as pd
 from pykakasi import kakasi
 
+st.write("調整さんからcsvファイルをダウンロードし、それをアップロードしてください。")
 uploaded_file = st.file_uploader("CSV", type="csv")
+
 
 if uploaded_file:
     df = pd.read_csv(
         uploaded_file,
-        encoding="shift_jis",
         header=2
     )
 
