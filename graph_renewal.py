@@ -3,10 +3,17 @@ import numpy as np
 import pandas as pd
 import os
 import matplotlib.pyplot as plt
-import japanize_matplotlib
 import datetime
 from supabase import create_client
+from matplotlib import font_manager
 
+# フォント設定
+font_path = "fonts/ipaexg.ttf"
+font_manager.fontManager.addfont(font_path)
+plt.rcParams["font.family"] = "IPAexGothic"
+
+
+# アプリ開始
 st.title("練習記録確認アプリ")
 
 tab1, tab2, tab3 = st.tabs(["会員試合数", "対戦履歴", "各人データ"])
