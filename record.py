@@ -3,8 +3,9 @@ import pandas as pd
 from pykakasi import kakasi
 from supabase import create_client
 
-url = "https://jstwwpwzysrsipfclzuk.supabase.co"
-key = "sb_publishable_PccKZwyxCAPCfGw12rJMoA_JqJ26JDh"
+
+url = st.secrets["SUPABASE_URL"]
+key = st.secrets["SUPABASE_KEY"]
 
 supabase = create_client(url, key)
 
