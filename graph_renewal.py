@@ -14,8 +14,8 @@ tab1, tab2, tab3 = st.tabs(["会員試合数", "対戦履歴", "各人データ"
 ## データの読み込み
 
 # supabase
-url = "https://jstwwpwzysrsipfclzuk.supabase.co"
-key = "sb_publishable_PccKZwyxCAPCfGw12rJMoA_JqJ26JDh"
+url = st.secrets["SUPABASE_URL"]
+key = st.secrets["SUPABASE_KEY"]
 supabase = create_client(url, key)
 
 # 試合記録
