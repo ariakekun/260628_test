@@ -3,7 +3,7 @@ import pandas as pd
 from pykakasi import kakasi
 from supabase import create_client
 
-
+st.title("練習結果記録アプリ")
 url = st.secrets["SUPABASE_URL"]
 key = st.secrets["SUPABASE_KEY"]
 
