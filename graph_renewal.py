@@ -26,12 +26,28 @@ key = st.secrets["SUPABASE_KEY"]
 supabase = create_client(url, key)
 
 # 試合記録
-match_record = (
-    supabase
-    .table("match_record")
-    .select("*")
-    .execute()
-)
+match_record = []
+startnumber = 0
+step = 1000
+
+while True:
+    res = (
+        supabase.table("match_record")
+        .select("*")
+        .range(startnumber, startnumber + step - 1)
+        .execute()
+    )
+
+    batch = res.data
+
+    if not batch:
+        break
+
+    match_record.extend(batch)
+    startnumber += step
+
+
+# st.write(len(match_record))
 
 # 漣メンバー
 
@@ -57,7 +73,7 @@ with tab1:
     selected_year = st.selectbox('年を選択', year_list, index=year_list.index(current_year))
 
     # 選択した年に対応するデータをフィルタリング
-    filtered_record = [i for i in match_record.data if int(i["date"].split("-")[0]) == selected_year]
+    filtered_record = [i for i in match_record if int(i["date"].split("-")[0]) == selected_year]
     
     # メンバーごとに名前が何回出てくるかを数えて辞書（名前と試合数）にする
     n_match_dict = []
@@ -123,7 +139,7 @@ with tab2:
     # ボタンが押されたら
     if st.button("対戦履歴を表示"):
         # まずp1で辞書をfilterする
-        p1_record = [i for i in match_record.data if i["winner"] == p1 or i["loser"] == p1]
+        p1_record = [i for i in match_record if i["winner"] == p1 or i["loser"] == p1]
         # 次にp2で辞書をfilterする
         p1_and_p2_record = [i for i in p1_record if i["winner"] == p2 or i["loser"] == p2]
         # 日付、勝敗、枚数 の辞書を作る
@@ -162,7 +178,7 @@ with tab3:
         start = date_result[0]
         end = date_result[1]
         filtered_by_date = [
-            i for i in match_record.data
+            i for i in match_record
             if start <= datetime.datetime.strptime(i["date"], "%Y-%m-%d").date() <= end
         ]
         # 人でフィルター
